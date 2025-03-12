@@ -1,64 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="description" content="A simple and easy-to-use weather dashboard">
-   <meta name="keywords" content="HTML, CSS, JavaScript, Weather, Dashboard">
-   <meta name="author" content="Lucas">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-   <!-- External Stylesheets -->
-   <link rel="stylesheet" href="styles.css">
-   <link rel="icon" href="favicon.ico">
-   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-   <link rel="manifest" href="manifest.json">
-   <link rel="mask-icon" href="mask-icon.svg" color="#5bbad5">
-   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
-   <!-- JavaScript Libraries -->
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-   <title>Weather Dashboard</title>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple and stylish weather dashboard">
+    <meta name="keywords" content="Weather, Dashboard, HTML, CSS, JavaScript">
+    <meta name="author" content="Lucas">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"></head>
 <body>
-   <!-- Main Header -->
-   <header class="container text-center my-4">
-      <h1>Weather Dashboard</h1>
-      <p class="lead">Enter a city name to get the current weather and forecast.</p>
-   </header>
+    <header class="container text-center">
+        <h1>Weather Dashboard</h1>
+        <p class="lead">Discover the current weather in any city</p>
+    </header>
 
-   <!-- Search Section -->
-   <section class="container text-center">
-      <form id="weatherForm" onsubmit="getWeather(); return false;">
-         <div class="form-group">
-            <input type="text" id="city" name="city" class="form-control" placeholder="Enter city name" required>
-         </div>
-         <button type="submit" class="btn btn-primary">Get Weather</button>
-      </form>
-   </section>
+    <main>
+        <section class="container text-center">
+            <form id="weatherForm">
+                <div class="form-group">
+                    <input type="text" id="city" name="city" placeholder="Enter city name" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Get Weather</button>
+            </form>
+        </section>
 
-   <!-- Weather Display Section -->
-   <section class="container mt-4">
-      <div id="weather" class="p-3 border rounded" style="display: none;">
-         <!-- Weather data will be dynamically inserted here -->
-         <h3>Weather in <span id="cityName"></span></h3>
-         <p id="currentWeather"></p>
-         <p id="temperature"></p>
-         <p id="windSpeed"></p>
-      </div>
-   </section>
+        <section class="container">
+            <div id="weather" class="weather-card" style="display: none;">
+                <div id="loading" style="display: none;">
+                    <i class="fas fa-spinner fas-spin fa-3x"></i>
+                </div>
+                <h3>Weather in <span id="cityName"></span></h3>
+                <div class="weather-icon">
+                    <img id="weatherIcon" src="" alt="Weather Icon">
+                </div>
+                <div class="weather-details">
+                    <p id="description"></p>
+                    <p id="temperature"></p>
+                    <p id="humidity"></p>
+                    <p id="windSpeed"></p>
+                </div>
+            </div>
+        </section>
+    </main>
 
-   <!-- Footer -->
-   <footer class="text-center mt-4">
-      <p>&copy; 2025 Lucas. All rights reserved.</p>
-   </footer>
+    <footer class="text-center">
+        <p>© 2025 Lucas. All rights reserved.</p>
+    </footer>
 
-   <!-- Internal Script -->
-   <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
-

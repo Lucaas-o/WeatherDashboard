@@ -1,61 +1,49 @@
-const getWeather = async () => {
-   try {
-     // Replace with an actual API endpoint
-     const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,precipitation,wind_speed_10m&hourly=temperature_2m'); 
+const weatherForm = document.getElementById('weatherForm');
+const weatherDisplay = document.getElementById('weather');
+const loading = document.getElementById('loading');
+const API_KEY = '250acdc360fef654243d71fe20c7e6e2';
 
-// need to change the fetch url to the correct one, latitude and longitude are for Berlin, Germany
+const getWeather = async (city) => {
+    try {
+        loading.style.display = 'block';
+        weatherDisplay.style.opacity = '0';
+        weatherDisplay.style.display = 'block';
 
-     if (!response.ok) {
-       throw new Error(`HTTP error! Status: ${response.status}`);
-     }
-     const data = await response.json();
-     console.log(data);
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
+        
+        if (!response.ok) {
+            throw new Error(`City not found or API error! Status: ${response.status}`);
+        }
 
-     // Extract relevant data
-     const { temperature_2m, wind_speed_10m } = data.current;
-     const cityName = "Berlin"; // You can replace this with dynamic city name if available
+        const data = await response.json();
+        const { name, main, weather, wind } = data;
+        const iconUrl = `http://openweathermap.org/img/wn/${weather[0].icon}@2x.png`;
 
-     // Update HTML elements
-     document.getElementById('cityName').textContent = cityName;
-     document.getElementById('currentWeather').textContent = `Temperature: ${temperature_2m}°C`;
-     document.getElementById('temperature').textContent = `Temperature: ${temperature_2m}°C`;
-     document.getElementById('windSpeed').textContent = `Wind Speed: ${wind_speed_10m} m/s`;
+        document.getElementById('cityName').textContent = name;
+        document.getElementById('weatherIcon').src = iconUrl;
+        document.getElementById('description').textContent = weather[0].description.charAt(0).toUpperCase() + weather[0].description.slice(1);
+        document.getElementById('temperature').textContent = `${main.temp}°C`;
+        document.getElementById('humidity').textContent = `${main.humidity}%`;
+        document.getElementById('windSpeed').textContent = `${wind.speed} m/s`;
 
-     // Make the weather display section visible
-     document.getElementById('weather').style.display = 'block';
+        loading.style.display = 'none';
+        setTimeout(() => {
+            weatherDisplay.style.opacity = '1';
+            weatherDisplay.style.transform = 'scale(1)';
+        }, 100);
 
-   } catch (error) {
-     console.error("Error fetching weather data:", error);
-   }
+    } catch (error) {
+        console.error("Error fetching weather data:", error);
+        loading.style.display = 'none';
+        weatherDisplay.innerHTML = '<p class="error"><i class="fas fa-exclamation-triangle"></i> Couldn’t find that city. Try again!</p>';
+        weatherDisplay.style.opacity = '1';
+    }
 };
 
-document.getElementById('weatherForm').addEventListener('submit', (event) => {
-   event.preventDefault();
-   getWeather();
+weatherForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const city = document.getElementById('city').value.trim();
+    if (city) {
+        getWeather(city);
+    }
 });
-
-const newElement = document.createElement('div');
-newElement.id = 'weather';
-newElement.classList.add('p-3', 'border', 'rounded');
-newElement.style.display = 'none';
-document.body.appendChild(newElement);
-
-const currentWeather = document.createElement('p');
-currentWeather.id = 'currentWeather';
-newElement.appendChild(currentWeather);
-
-const temperature = document.createElement('p');
-temperature.id = 'temperature';
-newElement.appendChild(temperature);
-
-const windSpeed = document.createElement('p');
-windSpeed.id = 'windSpeed';
-newElement.appendChild(windSpeed);
-
-const h3 = document.createElement('h3');
-h3.textContent = 'Weather in ';
-newElement.appendChild(h3);
-
-const cityName = document.createElement('p');
-cityName.id = 'cityName';
-newElement.appendChild(cityName);
